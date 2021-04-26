@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans">
+
+	<context:annotation-config />
+
+	<context:property-placeholder location="classpath:config.properties" />
+	<context:component-scan base-package="org.jack.plategen" />
+
+	<bean class="org.jack.plategen.generator.ScaleConverter" id="scaleConverter" />
+ 
+	<bean class="org.jack.plategen.generator.FileWalker" id="fileWalker" />
+
+	<bean class="org.jack.plategen.generator.DocPdfConverter" id="docPdfConverter" />
+
+
+	<bean class="org.jack.plategen.generator.ImageGenerator" id="imgGenerator">
+		<property ref="scaleConverter" name="scaleConverter" />
+	</bean>
+
+	<bean class="org.jack.plategen.generator.DocGen" id="docGen">
+		<property ref="fileWalker" name="fileWalker" />
+		<property ref="docPdfConverter" name="docPdfConverter" />
+		<property ref="imgGenerator" name="imgGenerator" />
+	</bean>
+</beans>
